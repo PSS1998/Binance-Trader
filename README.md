@@ -39,11 +39,12 @@ Buy_limit --market market'] --quantity quantity --rate rate<br/>
 Sell_limit --market market'] --quantity quantity --rate rate<br/>
 Get_open_trades --market market<br/>
 Cancel_order --market market --orderID orderID<br/>
-Get_balance --market market<br/>
+Get_balance --symbol symbol<br/>
 Get_market_price --market market<br/>
 Sell_OCO_order --market market --quantity quantity --takeProfitPrice takeProfitPrice --stopLimit stopLimit --stopLossPrice stopLossPrice<br/>
 Trade --market market --quantity quantity --takeProfitPrice takeProfitPrice --stopLossPrice stopLossPrice<br/>
 Trade_pct --market market --quantity quantity --takeProfitPct takeProfitPct --stopLossPct stopLossPct<br/>
+Transfer_dust --symbol symbol<br/>
 <br/>
 *you can also use amount of BTC instead of quantity (--amount amount)<br/>
 *for get_balance market argument is optional. default value is BTC<br/>
