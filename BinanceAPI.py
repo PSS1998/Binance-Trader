@@ -78,14 +78,6 @@ class BinanceAPI:
         ticker = self.client.get_ticker(symbol=market)
         return float(ticker['lastPrice'])
 
-
-
-
-
-
-
-
-
-
-
-
+    def transfer_dust(self, symbol):
+        transfer = self.client.transfer_dust(asset=symbol)
+        return transfer
