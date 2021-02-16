@@ -18,11 +18,12 @@ Buy_limit --market market'] --quantity quantity --rate rate
 Sell_limit --market market'] --quantity quantity --rate rate
 Get_open_trades --market market
 Cancel_order --market market --orderID orderID
-Get_balance --market market
+Get_balance --symbol symbol
 Get_market_price --market market
 Sell_OCO_order --market market --quantity quantity --takeProfitPrice takeProfitPrice --stopLimit stopLimit --stopLossPrice stopLossPrice
 Trade --market market --quantity quantity --takeProfitPrice takeProfitPrice --stopLossPrice stopLossPrice
 Trade_pct --market market --quantity quantity --takeProfitPct takeProfitPct --stopLossPct stopLossPct
+Transfer_dust --symbol symbol
 
 *you can also use amount of BTC instead of quantity (--amount amount)
 *for get_balance market argument is optional
@@ -88,6 +89,8 @@ def runCMD(bot, update):
             response = trader_class.trade(options['market'], float(options['quantity']), options['takeProfitPrice'], options['stopLossPrice'])
         elif(usercommand[0] == "Trade_pct"):
             response = trader_class.trade_pct(options['market'], float(options['quantity']), options['takeProfitPct'], options['stopLossPct'])
+        elif(usercommand[0] == "Transfer_dust"):
+            response = trader_class.transfer_dust(options['symbol'])
         
         if response:
             chunk_size=4000
