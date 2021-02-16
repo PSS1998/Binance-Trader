@@ -175,3 +175,7 @@ class trader():
         order2 = self.sell_OCO_order(market, quantity_validated, str(takeProfitPrice), str(stopLimit), str(stopLossPrice))
         return order1, order2
 
+    def transfer_dust(self, symbol):
+        trasnfer = self.API.transfer_dust(symbol)
+        return trasnfer
+
