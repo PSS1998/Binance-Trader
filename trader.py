@@ -160,7 +160,9 @@ class trader():
             return "You encountered a problem! Please try again."
         order1 = self.buy_market(market, quantity_validated)
         stopLimit = float(stopLossPrice) + tickSize
-        order2 = self.sell_OCO_order(market, quantity_validated, takeProfitPrice, str(stopLimit), stopLossPrice)
+        precision = self.calc_decimal_places(tickSize)
+        stopLimit = "{:0.0{}f}".format(stopLimit, precision)
+        order2 = self.sell_OCO_order(market, quantity_validated, takeProfitPrice, stopLimit, stopLossPrice)
         return order1, order2
 
 
@@ -172,7 +174,11 @@ class trader():
         lastBid, lastAsk = self.get_market_price(market)
         takeProfitPrice, stopLossPrice = self.calc_sell_prices(lastBid, float(takeProfitPct), float(stopLossPct), tickSize)
         stopLimit = float(stopLossPrice) + tickSize
-        order2 = self.sell_OCO_order(market, quantity_validated, str(takeProfitPrice), str(stopLimit), str(stopLossPrice))
+        precision = self.calc_decimal_places(tickSize)
+        stopLimit = "{:0.0{}f}".format(stopLimit, precision)
+        takeProfitPrice = "{:0.0{}f}".format(takeProfitPrice, precision)
+        stopLossPrice = "{:0.0{}f}".format(stopLossPrice, precision)
+        order2 = self.sell_OCO_order(market, quantity_validated, takeProfitPrice, stopLimit, stopLossPrice)
         return order1, order2
 
     def transfer_dust(self, symbol):
