@@ -49,6 +49,7 @@ Transfer_dust --symbol symbol<br/>
 *you can also use amount of BTC instead of quantity (--amount amount)<br/>
 *for get_balance market argument is optional. default value is BTC<br/>
 *if you dont use amount or quantity minimum quantity will be used<br/>
+*for Trade you can add multiple targets separating them with comma<br/>
 <br/>
 example:<br/>
 Get_balance --market BTC<br/>
