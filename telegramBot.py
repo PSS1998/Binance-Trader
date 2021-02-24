@@ -26,8 +26,9 @@ Trade_pct --market market --quantity quantity --takeProfitPct takeProfitPct --st
 Transfer_dust --symbol symbol
 
 *you can also use amount of BTC instead of quantity (--amount amount)
-*for get_balance market argument is optional
+*for Get_balance market argument is optional
 *if you dont use amount or quantity minimum quantity will be used
+*for Trade you can add multiple targets separating them with comma
 '''
 
 
@@ -55,7 +56,10 @@ def runCMD(bot, update):
         options = defaultdict()
         response = ""
         for i in range(1, len(usercommand), 2):
-            options[usercommand[i][2:]] = usercommand[i+1]
+            if(usercommand[i][2:] == "takeProfitPrice_list"):
+                options[usercommand[i][2:]] = usercommand[i+1].split(",")
+            else:
+                options[usercommand[i][2:]] = usercommand[i+1]
         
         if 'quantity' not in options:
             if 'amount' in options:
@@ -86,7 +90,10 @@ def runCMD(bot, update):
         elif(usercommand[0] == "Sell_OCO_order"):
             response = trader_class.sell_OCO_order(options['market'], float(options['quantity']), options['takeProfitPrice'], options['stopLimit'], options['stopLossPrice'])
         elif(usercommand[0] == "Trade"):
-            response = trader_class.trade(options['market'], float(options['quantity']), options['takeProfitPrice'], options['stopLossPrice'])
+            if 'takeProfitPrice_list' in options:
+                response = trader_class.trade(options['market'], float(options['quantity']), options['takeProfitPrice_list'], options['stopLossPrice'])
+            else:
+                response = trader_class.trade(options['market'], float(options['quantity']), options['takeProfitPrice'], options['stopLossPrice'])
         elif(usercommand[0] == "Trade_pct"):
             response = trader_class.trade_pct(options['market'], float(options['quantity']), options['takeProfitPct'], options['stopLossPct'])
         elif(usercommand[0] == "Transfer_dust"):
