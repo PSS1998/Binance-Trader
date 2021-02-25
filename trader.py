@@ -164,9 +164,8 @@ class trader():
         stopLimit = "{:0.0{}f}".format(stopLimit, precision)
         if(isinstance(takeProfitPrice, list)):
             quantity_validated, tickSize = self.validate(market, quantity_validated/len(takeProfitPrice))
-            order2 = ""
             for i in range(len(takeProfitPrice)):
-                order2 += self.sell_OCO_order(market, quantity_validated, takeProfitPrice[i], stopLimit, stopLossPrice)
+                order2 = self.sell_OCO_order(market, quantity_validated, takeProfitPrice[i], stopLimit, stopLossPrice)
         else:
             order2 = self.sell_OCO_order(market, quantity_validated, takeProfitPrice, stopLimit, stopLossPrice)
         return order1, order2
