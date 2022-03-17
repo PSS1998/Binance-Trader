@@ -4,6 +4,7 @@ import os
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
 from collections import defaultdict
+import ast
 
 import config
 from trader import trader
@@ -35,6 +36,7 @@ Transfer_dust --symbol symbol
 ### Get admin chat_id from config file
 ### For more security replies only send to admin chat_id
 adminCID = config.telegram_admin_chatID
+adminCID = ast.literal_eval(adminCID)
 
 ### Enable logging
 logging.basicConfig(
@@ -50,6 +52,7 @@ trader_class = trader()
 def runCMD(bot, update):
     if not isAdmin(bot, update):
         return
+    chat_id = update.message.chat_id
     try:
         usercommand = update.message.text
         usercommand = usercommand.split()
@@ -108,37 +111,40 @@ def runCMD(bot, update):
             else:
                 bot.sendMessage(text=str(response), chat_id=adminCID)
     except Exception as e:
-        bot.sendMessage(text=str(e), chat_id=adminCID)
+        bot.sendMessage(text=str(e), chat_id=chat_id)
 
 
 ### This function ping 8.8.8.8 and send you result
 def ping8(bot, update):
     if not isAdmin(bot, update):
         return
+    chat_id = update.message.chat_id
     cmdOut = str(
         subprocess.check_output(
             "ping", "8.8.8.8 -c4", stderr=subprocess.STDOUT, shell=True
         ),
         "utf-8",
     )
-    bot.sendMessage(text=cmdOut, chat_id=adminCID)
+    bot.sendMessage(text=cmdOut, chat_id=chat_id)
 
 
 def startCMD(bot, update):
     if not isAdmin(bot, update):
         return
+    chat_id = update.message.chat_id
     bot.sendMessage(
         text="Welcome to Binance Trader bot, Please use /help and read carefully!!",
-        chat_id=adminCID,
+        chat_id=chat_id,
     )
 
 
 def helpCMD(bot, update):
     if not isAdmin(bot, update):
         return
+    chat_id = update.message.chat_id
     bot.sendMessage(
         text=helpMessage,
-        chat_id=adminCID,
+        chat_id=chat_id,
     )
 
 def error(bot, update, error):
@@ -149,7 +155,7 @@ def error(bot, update, error):
 def isAdmin(bot, update):
     print(update)
     chat_id = update.message.chat_id
-    if str(chat_id) == adminCID:
+    if int(chat_id) in adminCID:
         return True
     else:
         update.message.reply_text(
@@ -158,7 +164,8 @@ def isAdmin(bot, update):
         alertMessage = """Some one tried to use this bot with this information:\n chat_id is {} and username is {} """.format(
             update.message.chat_id, update.message.from_user.username
         )
-        bot.sendMessage(text=alertMessage, chat_id=adminCID)
+        for admin in adminCID:
+            bot.sendMessage(text=alertMessage, chat_id=admin)
         return False
 
 
