@@ -5,4 +5,4 @@ api_secret = 'API_SECRET'
 # Telegram Bot Api Token
 telegram_token = 'TOKEN'
 # Telegram Admin chatID
-telegram_admin_chatID = 'YOUR‌ CHAT‌ ID'
+telegram_admin_chatID = '[YOUR‌ CHAT‌ ID, YOUR‌ SECOND CHAT‌ ID]'
